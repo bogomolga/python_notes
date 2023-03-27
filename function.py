@@ -44,3 +44,46 @@ def edit_note():
         print(f"Заметка №{note_id} успешно обновлена.")
     else:
         print(f"Заметка №{note_id} не найдена.")
+
+def view_notes():
+    notes = load_notes()
+    if notes:
+        for note_id, note in notes.items():
+            print(f"\tЗаметка №{note_id}")
+            print(f"\tЗаголовок: {note['title']}")
+            print(f"\tТекст: {note['body']}")
+            print(f"\tДата создания: {note['created_time']}")
+            print(f"\tДата последнего изменения: {note['last_updated_time']}")
+    else:
+        print("Заметок пока нет.")
+
+def delete_note():
+    note_id = int(input("Введите номер заметки: "))
+    with open("notes.json", "r") as f:
+        notes = json.load(f)
+    if str(note_id) in notes:
+        print(f"Удаление заметки №{note_id}")
+        confirmation = input("Вы действительно хотите удалить эту заметку? (y/n) ")
+        if confirmation.lower() == "y":
+            del notes[str(note_id)]
+            with open("notes.json", "w") as f:
+                json.dump(notes, f)
+            print(f"Заметка №{note_id} успешно удалена.")
+        else:
+            print(f"Удаление заметки №{note_id} отменено.")
+    else:
+        print(f"Заметка №{note_id} не найдена.")
+
+def view_note():
+    note_id = int(input("Введите номер заметки: "))
+    with open("notes.json", "r") as f:
+        notes = json.load(f)
+    if str(note_id) in notes:
+        note = notes[str(note_id)]
+        print(f"\tЗаметка №{note_id}")
+        print(f"\tЗаголовок: {note['title']}")
+        print(f"\tТекст: {note['body']}")
+        print(f"\tДата создания: {note['created_time']}")
+        print(f"\tДата последнего изменения: {note['last_updated_time']}")
+    else:
+        print(f"Заметка №{note_id} не найдена.")
